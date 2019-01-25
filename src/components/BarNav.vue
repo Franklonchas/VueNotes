@@ -8,10 +8,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">VueNotes</a>
+                    <router-link class="nav-link" to="/">{{brand}}</router-link>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">VueWeather</a>
+                    <router-link class="nav-link" to="/about">{{brand2}}</router-link>
                 </li>
             </ul>
         </div>
@@ -22,7 +22,8 @@
     export default {
         data () {
             return {
-                brand: 'VueNotes'
+                brand: 'VueNotes',
+                brand2: 'VueWeather'
             }
         }
     }

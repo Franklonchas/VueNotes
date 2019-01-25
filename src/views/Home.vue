@@ -1,18 +1,16 @@
 <template>
-  <div class="home">
-
-    <MyFooter></MyFooter>
-  </div>
+    <div class="home">
+        <GestionNota></GestionNota>
+    </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import MyFooter from "../components/MyFooter";
+    import GestionNota from '@/components/GestionNotas';
 
-export default {
-  name: 'home',
-  components: {
-      MyFooter
-  }
-}
+    export default {
+        name: 'home',
+        components: {
+            GestionNota
+        }
+    }
 </script>
