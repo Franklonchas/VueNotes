@@ -4,9 +4,7 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <div class="input-group-text">
-                    <input type="checkbox" aria-label="Checkbox for following text input">{{Dificultad[0]}}
-                    <input type="checkbox" aria-label="Checkbox for following text input">{{Dificultad[1]}}
-                    <input type="checkbox" aria-label="Checkbox for following text input">{{Dificultad[2]}}
+                    Por defecto las tareas estaran en low
                 </div>
             </div>
             <input type="text" class="form-control" @keyup.enter="addNewTodo()" v-model="newTodoText" id="new-todo"
@@ -18,20 +16,39 @@
         <a href="#" v-on:click="deleteCompletedTasks">x Borrar tareas completadas</a>
 
         <transition-group name="custom-classes-transition" enter-active-class="animated tada"
-                    leave-active-class="animated bounceOutRight">
+                          leave-active-class="animated bounceOutRight">
             <div v-for="(item, index) in items" v-bind:key="item" class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Reminder: {{item.tarea}}&nbsp;&nbsp;&nbsp;</h5>
-                    <h6 class="card-footer">Priority: {{item.prioridad}}</h6>
-                    <p class="card-text">Date of creation{{fecha_creacion}}</p>
+                    <h5 v-if="item.completada==false" class="card-footer">
+                        <img src="../assets/unchecked.png" v-on:click="changeToComplete(item)">&nbsp;&nbsp;&nbsp;Reminder:
+                        {{item.tarea}}
+                    </h5>
+                    <h5 v-else class="card-footer">
+                        <img src="../assets/checked.png" v-on:click="changeToComplete(item)">&nbsp;&nbsp;&nbsp;Reminder:
+                        {{item.tarea}}
+                    </h5>
+                    <p class="card-text">
+                        <button v-if="item.prioridad == 'Low'" type="button" class="btn btn-info btn-sm">Low</button>
+                        <button v-else type="button" class="btn btn-secondary btn-sm" v-on:click="changeToLow(item)">
+                            Low
+                        </button>
+                        <button v-if="item.prioridad == 'Medium'" type="button" class="btn btn-warning btn-sm">Medium
+                        </button>
+                        <button v-else type="button" class="btn btn-secondary btn-sm" v-on:click="changeToMedium(item)">
+                            Medium
+                        </button>
+                        <button v-if="item.prioridad == 'High'" type="button" class="btn btn-danger btn-sm">High
+                        </button>
+                        <button v-else type="button" class="btn btn-secondary btn-sm" v-on:click="changeToHigh(item)">
+                            High
+                        </button>
+                    </p>
+                    <p class="card-text"> Creation Date: {{item.fecha}}</p>
                     <a href="#" class="btn btn-danger" v-on:click="deleteNote(index)">Delete</a>
                 </div>
             </div>
         </transition-group>
-
-
     </div>
-
 </template>
 
 <script>
@@ -41,7 +58,8 @@
             return {
                 newTodoText: '',
                 Dificultad: ['Low', 'Medium', 'High'],
-                items: []
+                items: [],
+                auxItems: []
             }
         },
         methods: {
@@ -49,7 +67,7 @@
                 let nuevaTarea = {
                     tarea: this.newTodoText,
                     prioridad: "Low",
-                    fecha_creacion: new Date().getDate(),
+                    fecha: new Date().toLocaleString(),
                     completada: false
                 };
                 this.items.push(nuevaTarea);
@@ -67,10 +85,49 @@
                         localStorage.setItem('todos', JSON.stringify(this.items));
                     }
                 }
-            }
-        },
-        changeToComplete: function(task){
-            task.status = true;
+            },
+            changeToLow: function (item) {
+                item.prioridad = 'Low';
+                this.filterOrder();
+            },
+            changeToMedium: function (item) {
+                item.prioridad = 'Medium';
+                this.filterOrder();
+            },
+            changeToHigh: function (item) {
+                item.prioridad = 'High';
+                this.filterOrder();
+            },
+            changeToComplete: function (item) {
+                if (item.completada == true) {
+                    item.completada = false;
+                    localStorage.setItem('todos', JSON.stringify(this.items));
+
+                } else
+                    item.completada = true;
+                localStorage.setItem('todos', JSON.stringify(this.items));
+
+            },
+            filterOrder: function () {
+                this.auxItems = [];
+                for (let i = 0; i < this.items.length; i++) {
+                    if (this.items[i].prioridad === "High") {
+                        this.auxItems.push(this.items[i]);
+                    }
+                }
+                for (let i = 0; i < this.items.length; i++) {
+                    if (this.items[i].prioridad === "Medium") {
+                        this.auxItems.push(this.items[i]);
+                    }
+                }
+                for (let i = 0; i < this.items.length; i++) {
+                    if (this.items[i].prioridad === "Low") {
+                        this.auxItems.push(this.items[i]);
+                    }
+                }
+                this.items = this.auxItems;
+                localStorage.setItem('todos', JSON.stringify(this.items));
+            },
         },
         computed: {
             completadas: function () {
