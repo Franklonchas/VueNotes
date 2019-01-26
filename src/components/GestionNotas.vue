@@ -4,11 +4,21 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <div class="input-group-text">
-                    Por defecto las tareas estaran en low
+                    Priority defect Low
                 </div>
             </div>
             <input type="text" class="form-control" @keyup.enter="addNewTodo()" v-model="newTodoText" id="new-todo"
                    placeholder="Put your reminder">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <button v-on:click="findTask" class="btn btn-outline-secondary" type="button" id="button-addon1">Find a
+                    task
+                </button>
+            </div>
+            <input v-model="task" type="text" class="form-control" placeholder="Write here to find a task..."
+                   aria-label="Example text with button addon" aria-describedby="button-addon1">
         </div>
 
         Hay {{items.length}} tareas en tu lista de tareas.
@@ -102,7 +112,6 @@
                 if (item.completada == true) {
                     item.completada = false;
                     localStorage.setItem('todos', JSON.stringify(this.items));
-
                 } else
                     item.completada = true;
                 localStorage.setItem('todos', JSON.stringify(this.items));
@@ -127,6 +136,13 @@
                 }
                 this.items = this.auxItems;
                 localStorage.setItem('todos', JSON.stringify(this.items));
+            },
+            findTask: function () {
+                for (let i = 0; i < this.items.length; i++) {
+                    if (this.items[i].tarea === this.task) {
+                        console.log("Encontrada");
+                    }
+                }
             },
         },
         computed: {
