@@ -10,7 +10,7 @@
         </div>
 
         <div class="container">
-            <input v-model="search" @keyup.enter="findTask()" type="text" class="form-control"
+            <input v-model="search" type="text" class="form-control"
                    placeholder="Escribe aquí para buscar una nota..."
                    aria-label="Example text with button addon" aria-describedby="button-addon1">
         </div>
@@ -25,35 +25,83 @@
         </div>
         <transition-group name="custom-classes-transition" enter-active-class="animated tada"
                           leave-active-class="animated bounceOutRight">
-            <div v-for="(item, index) in items" v-bind:key="item" class="card">
-                <div class="card-body text-white bg-dark">
-                    <h5 v-if="item.completada===false" class="card-footer">
-                        <img src="../assets/unchecked.png" v-on:click="changeToComplete(item)">&nbsp;&nbsp;&nbsp;{{item.tarea}}
-                    </h5>
-                    <h5 v-else class="card-footer" style="color:#00bc8c; text-decoration:line-through;">
-                        <img src="../assets/checked.png" v-on:click="changeToComplete(item)">&nbsp;&nbsp;&nbsp;{{item.tarea}}
-                    </h5>
-                    <p class="card-text">
-                        <button v-if="item.prioridad === 'Low'" type="button" class="btn btn-info btn-sm">Low</button>
-                        <button v-else type="button" class="btn btn-secondary btn-sm" v-on:click="changeToLow(item)">
-                            Low
-                        </button>
-                        &nbsp;
-                        <button v-if="item.prioridad === 'Medium'" type="button" class="btn btn-warning btn-sm">Medium
-                        </button>
-                        <button v-else type="button" class="btn btn-secondary btn-sm" v-on:click="changeToMedium(item)">
-                            Medium
-                        </button>
-                        &nbsp;
-                        <button v-if="item.prioridad == 'High'" type="button" class="btn btn-danger btn-sm">High
-                        </button>
-                        <button v-else type="button" class="btn btn-secondary btn-sm" v-on:click="changeToHigh(item)">
-                            High
-                        </button>
-                    </p>
-                    <p class="card-text"> Fecha de Creación: {{item.fecha}}<img src="../assets/delete.png" id="delete"
-                                                                                v-on:click="deleteNote(index)"
-                                                                                height="42" width="42"></p>
+            <div v-if="findTask == ''" v-bind:key="1">
+                <div v-for="(item, index) in items" v-bind:key="item" class="card">
+                    <div class="card-body text-white bg-dark">
+                        <h5 v-if="item.completada===false" class="card-footer">
+                            <img src="../assets/unchecked.png" v-on:click="changeToComplete(item)">&nbsp;&nbsp;&nbsp;{{item.tarea}}
+                        </h5>
+                        <h5 v-else class="card-footer" style="color:#00bc8c; text-decoration:line-through;">
+                            <img src="../assets/checked.png" v-on:click="changeToComplete(item)">&nbsp;&nbsp;&nbsp;{{item.tarea}}
+                        </h5>
+                        <p class="card-text">
+                            <button v-if="item.prioridad === 'Low'" type="button" class="btn btn-info btn-sm">Low
+                            </button>
+                            <button v-else type="button" class="btn btn-secondary btn-sm"
+                                    v-on:click="changeToLow(item)">
+                                Low
+                            </button>
+                            &nbsp;
+                            <button v-if="item.prioridad === 'Medium'" type="button" class="btn btn-warning btn-sm">
+                                Medium
+                            </button>
+                            <button v-else type="button" class="btn btn-secondary btn-sm"
+                                    v-on:click="changeToMedium(item)">
+                                Medium
+                            </button>
+                            &nbsp;
+                            <button v-if="item.prioridad == 'High'" type="button" class="btn btn-danger btn-sm">High
+                            </button>
+                            <button v-else type="button" class="btn btn-secondary btn-sm"
+                                    v-on:click="changeToHigh(item)">
+                                High
+                            </button>
+                        </p>
+                        <p class="card-text"> Fecha de Creación: {{item.fecha}}<img src="../assets/delete.png"
+                                                                                    class="delete"
+                                                                                    v-on:click="deleteNote(index)"
+                                                                                    height="42" width="42"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="findTask != ''" v-bind:key="2">
+                <div v-for="(item, index) in findTask" v-bind:key="item" class="card">
+                    <div class="card-body text-white bg-dark">
+                        <h5 v-if="item.completada===false" class="card-footer">
+                            <img src="../assets/unchecked.png" v-on:click="changeToComplete(item)">&nbsp;&nbsp;&nbsp;{{item.tarea}}
+                        </h5>
+                        <h5 v-else class="card-footer" style="color:#00bc8c; text-decoration:line-through;">
+                            <img src="../assets/checked.png" v-on:click="changeToComplete(item)">&nbsp;&nbsp;&nbsp;{{item.tarea}}
+                        </h5>
+                        <p class="card-text">
+                            <button v-if="item.prioridad === 'Low'" type="button" class="btn btn-info btn-sm">Low
+                            </button>
+                            <button v-else type="button" class="btn btn-secondary btn-sm"
+                                    v-on:click="changeToLow(item)">
+                                Low
+                            </button>
+                            &nbsp;
+                            <button v-if="item.prioridad === 'Medium'" type="button" class="btn btn-warning btn-sm">
+                                Medium
+                            </button>
+                            <button v-else type="button" class="btn btn-secondary btn-sm"
+                                    v-on:click="changeToMedium(item)">
+                                Medium
+                            </button>
+                            &nbsp;
+                            <button v-if="item.prioridad == 'High'" type="button" class="btn btn-danger btn-sm">High
+                            </button>
+                            <button v-else type="button" class="btn btn-secondary btn-sm"
+                                    v-on:click="changeToHigh(item)">
+                                High
+                            </button>
+                        </p>
+                        <p class="card-text"> Fecha de Creación: {{item.fecha}}<img src="../assets/delete.png"
+                                                                                    class="delete"
+                                                                                    v-on:click="deleteNote(index)"
+                                                                                    height="42" width="42"></p>
+                    </div>
                 </div>
             </div>
         </transition-group>
@@ -154,11 +202,11 @@
                 return list.length;
             },
             findTask: function () {
-                if (this.search === '' || this.search === '') {
+                if (this.search === '' || this.search === ' ') {
                     return false;
                 } else {
-                    return this.item.filter(item => {
-                        return item.filterOrder.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
+                    return this.items.filter(item => {
+                        return item.tarea.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
                     })
                 }
             },
@@ -177,7 +225,7 @@
         font-size: 30px;
     }
 
-    #delete {
+    .delete {
         margin-left: 790px;
     }
 </style>
