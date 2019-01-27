@@ -70,7 +70,7 @@
                 const lat = position.coords.latitude;
                 const lon = position.coords.longitude;
 
-                this.getWeather(API + '&lat=' + lat + '&lon=' + lon + KEY);
+                this.getWeather("https://cors-anywhere.herokuapp.com/" + API + '&lat=' + lat + '&lon=' + lon + KEY);
             },
             geoError(error) {
                 this.getWeather(API + '&lat=0&lon=0' + KEY);
