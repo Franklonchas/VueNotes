@@ -57,12 +57,7 @@
                 </div>
             </div>
         </transition-group>
-
-        <div class="d-flex justify-content-center text-white">
-            Desarrollado por Francisco Javier Sánchez de la Torre<br>Codigo en <a
-                href="https://github.com/Franklonchas/VueNotes" id="enlaceGit">Github</a>
-        </div>
-
+        <br><br>
     </div>
 </template>
 
@@ -184,9 +179,5 @@
 
     #delete {
         margin-left: 790px;
-    }
-
-    #enlaceGit {
-        color: #00bc8c;
     }
 </style>

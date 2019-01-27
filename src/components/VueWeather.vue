@@ -1,17 +1,22 @@
 <template>
-    <div id="app">
-        <div id="weather">
-            <span>Tiempo actual: {{overcast}}</span><br>
-            <h1>{{name}}</h1>
-            <span class="temperature">Temperatura: {{currentTemp}}°</span><br>
-            <span id="temp-values">Min {{minTemp}}° <br> Max {{maxTemp}}°</span>
+    <div class="container">
+        <div class="container text-white" id="name">
+            Proyecto Vue.js - Francisco Javier Sánchez de la Torre
         </div>
-        <div id="info">
-            <span>Hora del amanecer: {{sunrise}}</span><br>
-            <span>Hora de la puesta de sol: {{sunset}}</span><br>
-            <span>Humedad: {{humidity}}</span><br>
-            <span>Presión: {{pressure}}</span><br>
-            <span>Viento: {{wind}}</span><br>
+        <div class="container text-white" id="format">
+            <div id="infoPlace">
+                <h1>Ciudad: {{name}}</h1>
+                <span class="format2">Tiempo actual: </span>{{overcast}}<br>
+                <span class="format2">Temperatura: </span>{{currentTemp}}°<br>
+                <span class="format2">Temperatura mínima: </span>{{minTemp}}°<span
+                    class="format2"> || Temperatura máxima: </span>{{maxTemp}}°<br>
+                <span class="format2">Presión: </span>{{pressure}} mbar<br>
+                <span class="format2">Humedad: </span>{{humidity}}<br>
+                <span class="format2">Viento: </span>{{wind}}<br>
+                <span class="format2">Hora del amanecer: </span>{{sunrise}}0<br>
+                <span class="format2">Hora de la puesta de sol: </span>{{sunset}}0<br>
+            </div>
+            <br><br><br><br><br><br><br>
         </div>
     </div>
 </template>
@@ -55,7 +60,7 @@
                         this.sunset = new Date(response.data.sys.sunset * 1000).toLocaleTimeString("en-GB").slice(0, 4);
                     })
                     .catch(error => {
-                        console.log(error);
+                        //console.log(error);
                     });
             },
             geolocation() {
@@ -80,38 +85,19 @@
 
 <style scoped>
 
-    #app {
-        width: 520px;
-        height: 170px;
-        position: absolute;
+    #name {
+        font-size: 30px;
+        padding-left: 190px;
+    }
+
+    #format {
+        padding-top: 100px;
+        position: relative;
         top: 35%;
-        left: 35%;
-        color: white;
+        left: 27%;
     }
 
-    #weather {
-        padding: 15px;
-        vertical-align: middle;
-    }
-
-    .temperature {
-        font-size: 40px;
-        vertical-align: top;
-        position: absolute;
-        left: 80px;
-    }
-
-    #temp-values {
-        text-align: right;
-        text-justify: distribute;
-        display: block;
-        position: relative;
-        top: -60px;
-    }
-
-    #info {
-        padding-left: 20px;
-        position: relative;
-        top: -20px;
+    .format2 {
+        font-weight: bold;
     }
 </style>

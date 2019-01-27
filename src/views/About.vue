@@ -1,18 +1,18 @@
 <template>
-  <div class="about">
-    <Weather></Weather>
-  </div>
+    <div class="about">
+        <Weather></Weather>
+    </div>
 </template>
 
 
 <script>
-  import Weather from '@/components/VueWeather';
+    import Weather from '@/components/VueWeather';
 
-  export default {
-    name: 'about',
-    components: {
-      Weather
+    export default {
+        name: 'about',
+        components: {
+            Weather
+        }
     }
-  }
 
 </script>
