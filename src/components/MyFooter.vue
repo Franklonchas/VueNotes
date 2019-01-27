@@ -1,7 +1,7 @@
 <template>
     <div class="row" id="fondo">
         <div class="col-lg-5 col-centered text-white text-center">
-            Desarrollado por Francisco Javier Sánchez de la Torre<br>
+            Desarrollado por {{nameDev}}<br>
             Código disponible en <a href="https://github.com/Franklonchas/VueNotes" id="enlaceGit"><img
                 src="../assets/github-logo.png">&nbsp;GitHub</a>
         </div>

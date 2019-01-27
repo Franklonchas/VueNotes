@@ -23,9 +23,10 @@
             <a href="#" v-on:click="deleteCompletedTasks" style="color: #f39c12;">&nbsp;x Borrar tareas completadas</a>
             <hr style="width:75%; border-color:grey;">
         </div>
-        <transition-group name="custom-classes-transition" enter-active-class="animated tada"
-                          leave-active-class="animated bounceOutRight">
-            <div v-if="findTask == ''" v-bind:key="1">
+
+        <div v-if="findTask == ''" v-bind:key="1">
+            <transition-group name="custom-classes-transition" enter-active-class="animated tada"
+                              leave-active-class="animated bounceOutRight">
                 <div v-for="(item, index) in items" v-bind:key="item" class="card">
                     <div class="card-body text-white bg-dark">
                         <h5 v-if="item.completada===false" class="card-footer">
@@ -50,7 +51,7 @@
                                 Medium
                             </button>
                             &nbsp;
-                            <button v-if="item.prioridad == 'High'" type="button" class="btn btn-danger btn-sm">High
+                            <button v-if="item.prioridad === 'High'" type="button" class="btn btn-danger btn-sm">High
                             </button>
                             <button v-else type="button" class="btn btn-secondary btn-sm"
                                     v-on:click="changeToHigh(item)">
@@ -63,9 +64,12 @@
                                                                                     height="42" width="42"></p>
                     </div>
                 </div>
-            </div>
+            </transition-group>
+        </div>
 
-            <div v-if="findTask != ''" v-bind:key="2">
+        <div v-if="findTask != ''" v-bind:key="2">
+            <transition-group name="custom-classes-transition" enter-active-class="animated tada"
+                              leave-active-class="animated bounceOutRight">
                 <div v-for="(item, index) in findTask" v-bind:key="item" class="card">
                     <div class="card-body text-white bg-dark">
                         <h5 v-if="item.completada===false" class="card-footer">
@@ -90,7 +94,7 @@
                                 Medium
                             </button>
                             &nbsp;
-                            <button v-if="item.prioridad == 'High'" type="button" class="btn btn-danger btn-sm">High
+                            <button v-if="item.prioridad === 'High'" type="button" class="btn btn-danger btn-sm">High
                             </button>
                             <button v-else type="button" class="btn btn-secondary btn-sm"
                                     v-on:click="changeToHigh(item)">
@@ -103,9 +107,10 @@
                                                                                     height="42" width="42"></p>
                     </div>
                 </div>
-            </div>
-        </transition-group>
-        <br><br>
+            </transition-group>
+        </div>
+
+        <br>
     </div>
 </template>
 

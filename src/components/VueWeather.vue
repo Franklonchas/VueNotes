@@ -10,7 +10,7 @@
                 <span class="format2">Temperatura: </span>{{currentTemp}}°<br>
                 <span class="format2">Temperatura mínima: </span>{{minTemp}}°<span
                     class="format2"> || Temperatura máxima: </span>{{maxTemp}}°<br>
-                <span class="format2">Presión: </span>{{pressure}} mbar<br>
+                <span class="format2">Presión atmosférica: </span>{{pressure}} mbar<br>
                 <span class="format2">Humedad: </span>{{humidity}}<br>
                 <span class="format2">Viento: </span>{{wind}}<br>
                 <span class="format2">Hora del amanecer: </span>{{sunrise}}0<br>
