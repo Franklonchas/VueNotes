@@ -1,63 +1,68 @@
 <template>
     <div class="container">
+        <div class="container text-white" id="name">
+            Proyecto Vue.js - Francisco Javier Sánchez de la Torre
+        </div>
         <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <div class="input-group-text">
-                    Priority defect Low
-                </div>
-            </div>
+        <div class="container">
             <input type="text" class="form-control" @keyup.enter="addNewTodo()" v-model="newTodoText" id="new-todo"
-                   placeholder="Put your reminder">
+                   placeholder="¿Qué quieres recordar?">
         </div>
 
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <button v-on:click="findTask" class="btn btn-outline-secondary" type="button" id="button-addon1">Find a
-                    task
-                </button>
-            </div>
-            <input v-model="task" type="text" class="form-control" placeholder="Write here to find a task..."
+        <div class="container">
+            <input v-model="search" @keyup.enter="findTask()" type="text" class="form-control"
+                   placeholder="Escribe aquí para buscar una nota..."
                    aria-label="Example text with button addon" aria-describedby="button-addon1">
         </div>
+        <div class="container text-white">
+            <hr style="width:75%; border-color:grey;">
 
-        Hay {{items.length}} tareas en tu lista de tareas.
-        Hay {{ completadas }} tareas completadas en tu lista de tareas.
-        <a href="#" v-on:click="deleteCompletedTasks">x Borrar tareas completadas</a>
-
+            <img src="../assets/notes.png">&nbsp;Hay {{items.length}} tareas en tu lista de tareas. || Hay {{
+            completadas
+            }} tareas completadas en tu lista de tareas. ||
+            <a href="#" v-on:click="deleteCompletedTasks" style="color: #f39c12;">&nbsp;x Borrar tareas completadas</a>
+            <hr style="width:75%; border-color:grey;">
+        </div>
         <transition-group name="custom-classes-transition" enter-active-class="animated tada"
                           leave-active-class="animated bounceOutRight">
             <div v-for="(item, index) in items" v-bind:key="item" class="card">
-                <div class="card-body">
-                    <h5 v-if="item.completada==false" class="card-footer">
-                        <img src="../assets/unchecked.png" v-on:click="changeToComplete(item)">&nbsp;&nbsp;&nbsp;Reminder:
-                        {{item.tarea}}
+                <div class="card-body text-white bg-dark">
+                    <h5 v-if="item.completada===false" class="card-footer">
+                        <img src="../assets/unchecked.png" v-on:click="changeToComplete(item)">&nbsp;&nbsp;&nbsp;{{item.tarea}}
                     </h5>
-                    <h5 v-else class="card-footer">
-                        <img src="../assets/checked.png" v-on:click="changeToComplete(item)">&nbsp;&nbsp;&nbsp;Reminder:
-                        {{item.tarea}}
+                    <h5 v-else class="card-footer" style="color:#00bc8c; text-decoration:line-through;">
+                        <img src="../assets/checked.png" v-on:click="changeToComplete(item)">&nbsp;&nbsp;&nbsp;{{item.tarea}}
                     </h5>
                     <p class="card-text">
-                        <button v-if="item.prioridad == 'Low'" type="button" class="btn btn-info btn-sm">Low</button>
+                        <button v-if="item.prioridad === 'Low'" type="button" class="btn btn-info btn-sm">Low</button>
                         <button v-else type="button" class="btn btn-secondary btn-sm" v-on:click="changeToLow(item)">
                             Low
                         </button>
-                        <button v-if="item.prioridad == 'Medium'" type="button" class="btn btn-warning btn-sm">Medium
+                        &nbsp;
+                        <button v-if="item.prioridad === 'Medium'" type="button" class="btn btn-warning btn-sm">Medium
                         </button>
                         <button v-else type="button" class="btn btn-secondary btn-sm" v-on:click="changeToMedium(item)">
                             Medium
                         </button>
+                        &nbsp;
                         <button v-if="item.prioridad == 'High'" type="button" class="btn btn-danger btn-sm">High
                         </button>
                         <button v-else type="button" class="btn btn-secondary btn-sm" v-on:click="changeToHigh(item)">
                             High
                         </button>
                     </p>
-                    <p class="card-text"> Creation Date: {{item.fecha}}</p>
-                    <a href="#" class="btn btn-danger" v-on:click="deleteNote(index)">Delete</a>
+                    <p class="card-text"> Fecha de Creación: {{item.fecha}}<img src="../assets/delete.png" id="delete"
+                                                                                v-on:click="deleteNote(index)"
+                                                                                height="42" width="42"></p>
                 </div>
             </div>
         </transition-group>
+
+        <div class="d-flex justify-content-center text-white">
+            Desarrollado por Francisco Javier Sánchez de la Torre<br>Codigo en <a
+                href="https://github.com/Franklonchas/VueNotes" id="enlaceGit">Github</a>
+        </div>
+
     </div>
 </template>
 
@@ -69,7 +74,8 @@
                 newTodoText: '',
                 Dificultad: ['Low', 'Medium', 'High'],
                 items: [],
-                auxItems: []
+                auxItems: [],
+                search: ''
             }
         },
         methods: {
@@ -137,12 +143,11 @@
                 this.items = this.auxItems;
                 localStorage.setItem('todos', JSON.stringify(this.items));
             },
-            findTask: function () {
-                for (let i = 0; i < this.items.length; i++) {
-                    if (this.items[i].tarea === this.task) {
-                        console.log("Encontrada");
-                    }
-                }
+            startInterval: function () {
+                this.updateInterval = setInterval(() => {
+                    this.currentDate = new Date();
+                    this.fecha = this.currentDate - this.fecha;
+                }, 60 * 1000);
             },
         },
         computed: {
@@ -152,7 +157,16 @@
                     return item.completada;
                 });
                 return list.length;
-            }
+            },
+            findTask: function () {
+                if (this.search === '' || this.search === '') {
+                    return false;
+                } else {
+                    return this.item.filter(item => {
+                        return item.filterOrder.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
+                    })
+                }
+            },
         },
         mounted() {
             var items = JSON.parse(localStorage.getItem('todos'));
@@ -164,5 +178,15 @@
 </script>
 
 <style scoped>
+    #name {
+        font-size: 30px;
+    }
 
+    #delete {
+        margin-left: 790px;
+    }
+
+    #enlaceGit {
+        color: #00bc8c;
+    }
 </style>
